@@ -17,3 +17,9 @@ bring back some nostalgia of my CS undergrad 'Computer Networks' course.
 
 But again, mostly, I want to be fluent in VIM and python so I can strictly focus
 on the tasks at hand.
+
+
+## References
+
+- http://www.tcpipguide.com/free/t_TCPIPBootstrapProtocolBOOTP.htm
+
