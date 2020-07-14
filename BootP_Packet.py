@@ -3,6 +3,10 @@
 # http://www.tcpipguide.com/free/t_DHCPMessageFormat.htm
 # http://www.tcpipguide.com/free/t_BOOTPMessageFormat.htm
 
+from socket import inet_aton,inet_ntoa
+from network_utils import mac_hextostr,mac_strtohex
+
+
 class BootP_Packet:
     def __init__(self):
         '''
@@ -99,6 +103,7 @@ class BootP_Packet:
         BOOTP, this field is not used by clients and does not represent the server
         giving the client the address of a default router (that's done using the
         Router DHCP option).
+
         '''
         # Size = 4
         self.giaddr = '0.0.0.0'
@@ -142,3 +147,32 @@ class BootP_Packet:
         '''
         # Size = 64
         self.vend = ""
+
+
+        function set_op(_self,  op=1):
+            self.op = op
+
+        function set_htype(_self, htype):
+            self.htype = hlen
+
+        function set_hops(_self, hops):
+            self.hops = hops
+
+        function set_ciaddr(_self, ciaddr);
+            self.ciaddr = ciaddr
+
+        function set_yiaddr(_self, yiaddr):
+            self.yiaddr = yiaddr
+
+        function set_siaddr(_self, siaddr):
+            self.siaddr = siaddr
+
+        function set_giaddr(_self, giaddr):
+            self.giaddr = giaddr;
+
+        function set_chaddr(_self, chaddr):
+            self.chaddr = chaddr
+
+        function set_sname(_self, sname):
+            self.sname = sname
+
