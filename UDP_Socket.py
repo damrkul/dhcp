@@ -3,7 +3,8 @@ import socket
 
 class UDP_Socket:
     def __init__(self):
-        self.port = 37020
+#        self.port = 32067
+        self.port = 67
         try:
             self.sockfd = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # UDP
         except:
