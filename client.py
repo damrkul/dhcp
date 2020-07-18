@@ -13,14 +13,24 @@ import binascii
 
 
 def main():
-    client = UDP_Socket()
+    client = UDP_Socket("Client")
     client.isClient()
     packet = DHCP_Packet()
     print(packet.encode())
-    while True:
-        client.sendto(packet.encode())
-        print("message sent!")
-        time.sleep(1)
+#    while True:
+    client.sendto(packet.encode())
+    packet.to_string()
+    time.sleep(1)
+
+    data, addr = client.recvfrom()
+    print ( addr )
+    print ("RECIEVING...........")
+    packet = DHCP_Packet()
+    packet.decode(data)
+    packet.to_string()
+
+
+
 
 
 if __name__ == "__main__":

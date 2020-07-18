@@ -35,7 +35,8 @@ class DHCP_Packet:
         self.file = ""
         self.vend = ""
         self.options = {}
-
+        self.message = bytearray(1)
+        self.dhcp_message_type =1
 
     def encode(self):
         '''   The options field is now variable length, with the minimum extended
@@ -69,10 +70,33 @@ class DHCP_Packet:
         message += inet_aton('99.130.83.99') # Magic Number
 
         message+=bytes([53]) + bytes([1]) + bytes([1])
-        message+=bytes([55]) + bytes([4]) + bytes([1]) + bytes([3]) + bytes([6]) + bytes([28])
+#        message+=bytes([55]) + bytes([4]) + bytes([1]) + bytes([3]) + bytes([6]) + bytes([28])
 
         message += b'\xFF'
         return message
+
+    def prepare_packet(self):
+        message = bytearray(236)
+        op              = helpers.int_to_hexbinary(self.op)
+        htype           = helpers.int_to_hexbinary(self.htype)
+        hlen            = helpers.int_to_hexbinary(self.hlen)
+        hops            = helpers.int_to_hexbinary(0)
+        message[0:4]    = op + htype +hlen + hops
+        message[4:8]    = struct.pack('>I', self.trans_id)
+        message[8:10]   = struct.pack('>H', self.secs)
+        message[10:12]  = self.flags =  b'\x80\x00' ## Set Broadcast flag
+        message[12:16]  = inet_aton(self.ciaddr)
+        message[16:20]  = inet_aton(self.yiaddr)
+        message[20:24]  = inet_aton(self.siaddr)
+        message[24:28]  = inet_aton(self.giaddr)
+        message[28:34]  = helpers.mac_hextobin(helpers.strip_colon(self.chaddr))
+        message += inet_aton('99.130.83.99') # Magic Number
+
+#        message+=bytes([53]) + bytes([1]) + bytes([1])
+#        message+=bytes([55]) + bytes([4]) + bytes([1]) + bytes([3]) + bytes([6]) + bytes([28])
+#        message += b'\xFF'
+        return message
+
 
     def decode(self,message):
         ''' This is literally the Inverse of encode packet.  Its just useful to
@@ -88,11 +112,12 @@ class DHCP_Packet:
         self.yiaddr     = inet_ntoa(message[16:20])
         self.siaddr     = inet_ntoa(message[20:24])
         self.giaddr     = inet_ntoa(message[24:28])
-        self.chaddr     = helpers.mac_bintohex(message[28:34])
+        #self.chaddr     = helpers.mac_bintohex(message[28:34])
+        self.chaddr     = helpers.mac_readable(helpers.mac_bintohex(message[28:34]))
 
         optionIndex = self.findMagicCookie(message) + 4
 
-        print("magic cookie found at index: " + str( optionIndex) )
+        #print("magic cookie found at index: " + str( optionIndex) )
         self.options = self.parseOptions(message,optionIndex)
         self.dhcp_message_type = self.options[53]['data']
 

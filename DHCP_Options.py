@@ -9,6 +9,15 @@ DHCP_ACK        = 5
 DHCP_NAK        = 6
 DHCP_RELEASE    = 7
 
+op_name = { 
+    1: "DHCP_DISCOVER",
+    2: "DHCP_OFFER",
+    3: "DHCP_REQUEST",
+    4: "DHCP_DECLINE",
+    5: "DHCP_ACK",
+    6: "DHCP_NAK",
+    7: "DHCP_RELEASE",
+}
 
 def dhcp_method_discover():
     print("This is discover Method")
@@ -198,5 +207,7 @@ dhcp_options =  {
 213: {'tag': 213, 'name': 'OPTION_V4_ACCESS_DOMAIN', 'length': 'N', 'meaning': 'Access Network Domain Name', 'reference': '[RFC5986]'},
 220: {'tag': 220, 'name': 'Subnet Allocation Option', 'length': 'N', 'meaning': 'Subnet Allocation Option', 'reference': '[RFC6656]'},
 221: {'tag': 221, 'name': 'Virtual Subnet Selection (VSS) Option', 'length': '', 'meaning': '', 'reference': '[RFC6607]'},
+249: {'tag': 249, 'name': 'Private/Classless Static Route', 'length': 4, 'meaning': 'None', 'reference': '[RFC2132]'},
+252: {'tag': 252, 'name': 'Proxy Autodiscovery', 'length': 4, 'meaning': 'None', 'reference': '[RFC2132]'},
 255: {'tag': 255, 'name': 'End', 'length': 0, 'meaning': 'None', 'reference': '[RFC2132]'},
 }
